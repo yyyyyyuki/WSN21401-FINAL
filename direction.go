@@ -2,7 +2,7 @@ package main
 
 import (
 	"errors"
-	// "math/rand"
+	"math/rand"
 )
 
 type Direction int
@@ -45,6 +45,40 @@ func (d Direction) String() string {
 	}
 
 	return "Unknown Direction"
+}
+
+func RandomDirection() Direction {
+	return Direction(rand.Intn(8))
+}
+
+type SetOfDirections struct {
+	list []Direction
+}
+
+func (s *SetOfDirections) Add(d Direction) {
+	s.list = append(s.list, d)
+}
+
+func (s *SetOfDirections) Contains(d Direction) bool {
+	for i := range s.list {
+		if s.list[i] == d {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (s *SetOfDirections) Remove(d Direction) {
+	for k, v := range s.list {
+		if v == d {
+			s.list = append(s.list[:k], s.list[k+1:]...)
+		}
+	}
+}
+
+func (s *SetOfDirections) Len() int {
+	return len(s.list)
 }
 
 type Point struct {

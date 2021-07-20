@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func checkError(t *testing.T, err error) {
 	if err != nil {
@@ -19,5 +22,29 @@ func TestMovePoint(t *testing.T) {
 
 	if p1.Y != p0.Y-1 {
 		t.Fail()
+	}
+}
+
+func TestSetOfDirections(t *testing.T) {
+	var s SetOfDirections
+
+	s.Add(DirectionUp)
+
+	fmt.Println(s.list)
+
+	if s.Len() != 1 {
+		t.Error("TestSetOfDirections is failed")
+	}
+
+	if s.Contains(DirectionUp) {
+		s.Remove(DirectionUp)
+	} else {
+		s.Add(DirectionUp)
+	}
+
+	fmt.Println(s.list)
+
+	if s.Len() != 0 {
+		t.Error("TestSetOfDirections is failed")
 	}
 }
