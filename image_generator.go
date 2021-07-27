@@ -1,14 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 )
 
-func GenerateImgMatrix(height, width, steps int) [][]uint8 {
-	data := make([][]uint8, height)
+func GenerateImgMatrix(height, width, steps int) [][]int {
+	data := make([][]int, height)
 	for i := range data {
-		data[i] = make([]uint8, width)
+		data[i] = make([]int, width)
 	}
 
 	min_x := 1
@@ -46,4 +47,51 @@ func GenerateImgMatrix(height, width, steps int) [][]uint8 {
 func get_random(from, to int) int {
 	rand.Seed(time.Now().UnixNano())
 	return rand.Intn(to-from) + from
+}
+
+func GenerateImgColorMatrix(data [][]int, br, bg, bb, fr, fg, fb int) [][][]int {
+	height := len(data)
+	width := len(data[0])
+
+	fmt.Println(height)
+	fmt.Println(width)
+
+	color_data := make([][][]int, 3)
+	for i := range color_data {
+		color_data[i] = make([][]int, height)
+		for j := range color_data[i] {
+			color_data[i][j] = make([]int, width)
+		}
+	}
+
+	for x := range color_data[0] {
+		for y := range color_data[0][x] {
+			if data[x][y] == 1 {
+				color_data[0][x][y] = fr
+			} else {
+				color_data[0][x][y] = br
+			}
+		}
+	}
+	for x := range color_data[1] {
+		for y := range color_data[0][x] {
+			if data[x][y] == 1 {
+				color_data[0][x][y] = fg
+			} else {
+				color_data[0][x][y] = bg
+			}
+		}
+	}
+	for x := range color_data[2] {
+		for y := range color_data[0][x] {
+			if data[x][y] == 1 {
+				color_data[0][x][y] = fb
+			} else {
+				color_data[0][x][y] = bb
+			}
+		}
+	}
+
+	return color_data
+
 }
